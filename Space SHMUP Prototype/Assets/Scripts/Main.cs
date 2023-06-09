@@ -17,7 +17,7 @@ public class Main : MonoBehaviour
     private void Awake()
     {
         singlton = this;
-        boundsCheck = GetComponent<BoundsCheck>();
+        boundsCheck = GetComponent<BoundsCheck>(); 
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
     }
 
@@ -40,5 +40,14 @@ public class Main : MonoBehaviour
         go.transform.position = pos;
 
         Invoke("SpawnEnemy", 1f / enemySpawnPerSecond);
+    }
+
+    public void DelayedRestart(float delay)
+    {
+        Invoke("Restart", delay);
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("__Scene_0");
     }
 }

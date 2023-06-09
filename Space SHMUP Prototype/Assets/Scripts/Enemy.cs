@@ -29,8 +29,9 @@ public class Enemy : MonoBehaviour
 
         if ( boundsCheck != null && boundsCheck.offDown)//убедится что карабль вышел за нижнюю границу экрана 
         {
+            print("корабль вышел за границу экрана");
             //корабль за нижней границей, его нужно уничтожить 
-            Destroy(gameObject);
+            Destroy(this.gameObject);
             
         }
     }
@@ -40,5 +41,16 @@ public class Enemy : MonoBehaviour
         Vector3 tempPos = pos;
         tempPos.y -= speed * Time.deltaTime;
         pos = tempPos;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject otherGO = collision.gameObject;
+        if(otherGO.tag == "ProjectileHero")
+        {
+            Destroy(otherGO);
+            Destroy(gameObject);
+        }
+        else { print("Enemy hit by non-ProjectileHero: " + otherGO.name); }
     }
 }

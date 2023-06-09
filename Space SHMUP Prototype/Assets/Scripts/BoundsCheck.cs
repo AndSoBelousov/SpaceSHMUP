@@ -14,7 +14,9 @@ public class BoundsCheck : MonoBehaviour
     public float camHeight;
 
     [HideInInspector]
-    public bool offRight, offLeft, offUp, offDown;
+    public bool offRight, offLeft, offUp;
+    [SerializeField]
+    public bool offDown;
 
     private void Awake()
     {
@@ -42,16 +44,16 @@ public class BoundsCheck : MonoBehaviour
             offLeft = true;
         }
 
-        if (pos.y > camWidth - radius)
+        if (pos.y > camHeight - radius)
         {
-            pos.y = camWidth - radius;
+            pos.y = camHeight - radius;
             isOnScreen = false;
             offUp = true;
         }
 
-        if (pos.y < -camWidth + radius)
+        if (pos.y < -camHeight + radius)
         {
-            pos.y = -camWidth + radius;
+            pos.y = -camHeight + radius;
             isOnScreen = false;
             offDown = true;
         }

@@ -23,7 +23,7 @@ public class Shield : MonoBehaviour
     void Update()
     {
         //прочитать текущую мощность защитного поля 
-        currLevel = Mathf.FloorToInt(Hero.Singleton._shileldLevel);
+        currLevel = Mathf.FloorToInt(Hero.Singleton.ShieldLevel);
         // если она отличается от levelShown
         if( levelShown != currLevel)
         {
