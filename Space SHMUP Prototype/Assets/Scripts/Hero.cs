@@ -21,6 +21,9 @@ public class Hero : MonoBehaviour
 
     private GameObject lastTriggerGO = null;
 
+    public delegate void WeaponFireDelegate();
+    public WeaponFireDelegate fireDelegate;
+
     public float ShieldLevel
     {
         get { return _shieldLevel;}
@@ -45,6 +48,7 @@ public class Hero : MonoBehaviour
         {
             Debug.LogError("Hero.Awake() - Attempted to assing second Hero.Singleton");
         }
+        fireDelegate += TempFire;
     }
 
     void Update()
@@ -59,9 +63,14 @@ public class Hero : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(yAxis * _pitchMult, xAxis * _rollMult, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    TempFire();
+        //}
+
+        if (Input.GetAxis("Jump") == 1 && fireDelegate != null)
         {
-            TempFire();
+            fireDelegate();
         }
     }
 
@@ -70,7 +79,12 @@ public class Hero : MonoBehaviour
         GameObject projGO = Instantiate<GameObject>(_projectilePrefab);
         projGO.transform.position = transform.position;
         Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
-        rigidB.velocity = Vector3.up * _projectileSpeed;
+        //rigidB.velocity = Vector3.up * _projectileSpeed;
+
+        Projectile proj = projGO.GetComponent<Projectile>();
+        proj.type = WeaponType.blaster;
+        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
+        rigidB.velocity = Vector3.up * tSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
